@@ -134,21 +134,21 @@ class App extends React.Component {
         this.state.remainingTime <= 10? timerStyle.color = 'red' : timerStyle.color = '#A0A0FF';
         return (
             <div id = "container">
-                <h1><span>****</span> <span>Pomodoro Clock</span><span>****</span></h1>
+                <h1><span>****</span><span>Pomodoro Clock</span><span>****</span></h1>
                 <div id = "options">
                     <div id = "break">
                         <div id = "break-label">Break Length:</div>
                         <div className = "info" id = "breakinfo">
-                            <div id = "break-length">{this.state.breakLength/60}</div>
                             <Control elementId = "break-decrement" onClick = {this.decreaseBreak} contents = "-" /> 
+                            <div id = "break-length">{this.state.breakLength/60}</div>
                             <Control elementId = "break-increment" onClick = {this.increaseBreak} contents = "+"/> 
                         </div>
                     </div>
                     <div id = "session">
                         <div id = "session-label">Session Length:</div>
                         <div className = "info" id = "sessioninfo">
-                            <div id = "session-length">{this.state.sessionLength/60}</div>
                             <Control elementId = "session-decrement" onClick = {this.decreaseSession} contents = "-"/> 
+                            <div id = "session-length">{this.state.sessionLength/60}</div>
                             <Control elementId = "session-increment" onClick = {this.increaseSession} contents = "+"/> 
                         </div>
                     </div>
