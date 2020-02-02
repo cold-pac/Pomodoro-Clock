@@ -13,21 +13,27 @@ function bloatConvert (num) {
 
 let timerInterval;
 
+const Control = (props) => {
+    return <div id = {props.elementId} onClick = {props.onClick}>{props.contents}</div>
+}
+
 class App extends React.Component {
     constructor (props) {
         super(props)
         this.state = {
-            remainingTime: (25*60),  //let's measure everything in seconds lol
+            remainingTime: (25*60),  //measuring all times in seconds 
             breakLength: (5*60),
             sessionLength: (25*60), 
-            timerLabel: "Session"
+            timerLabel: "Session",
+            state: "Stopped",
+            oppositeState: "Start"
         }
-        this.startTimer = this.startTimer.bind(this);
-        this.stopTimer = this.stopTimer.bind(this);
+        this.toggleTimer = this.toggleTimer.bind(this);
         this.decreaseBreak = this.decreaseBreak.bind(this);
         this.increaseBreak = this.increaseBreak.bind(this);
         this.decreaseSession = this.decreaseSession.bind(this);
         this.increaseSession = this.increaseSession.bind(this);
+        this.resetTime = this.resetTime.bind(this);
     }
     startTimer () {
         timerInterval = setInterval(() => {
@@ -51,6 +57,21 @@ class App extends React.Component {
     stopTimer () {
         clearInterval(timerInterval);
         timerInterval = false;
+    }
+    toggleTimer () {
+        if (this.state.state === "Stopped") {
+            this.startTimer();
+            this.setState({
+                state: "Started",
+                oppositeState: "Stop"
+            });
+        } else {
+            this.stopTimer();
+            this.setState({
+                state: "Stopped",
+                oppositeState: "Start"
+            });
+        }
     }
     decreaseBreak () {
         if (!timerInterval) {
@@ -95,29 +116,43 @@ class App extends React.Component {
             this.updateTimer();
         }
     }
+    resetTime () {
+        this.setState({
+                remainingTime: (25*60),
+                breakLength: (5*60),
+                sessionLength: (25*60), 
+                timerLabel: "Session",
+                state: "Stopped",
+                oppositeState: "Start"
+        });
+        this.stopTimer();
+    }
     render () {
+        let timerStyle = {
+            color: 'black',
+        }
+        this.state.remainingTime <= 10? timerStyle.color = 'red' : timerStyle.color = 'black';
         return (
             <div id = "container">
                 <h1>Pomodoro Clock</h1>
                 <div id = "options">
                     <div id = "break-label">Break Length (mins)</div>
                     <div id = "break-length">{this.state.breakLength/60}</div>
-                    <div id = "break-decrement" onClick = {this.decreaseBreak}>-</div>
-                    <div id = "break-increment" onClick = {this.increaseBreak}>+</div>
+                    <Control elementId = "break-decrement" onClick = {this.decreaseBreak} contents = "-" /> 
+                    <Control elementId = "break-increment" onClick = {this.increaseBreak} contents = "+"/> 
                     <div id = "session-label">Session Length (mins)</div>
                     <div id = "session-length">{this.state.sessionLength/60}</div>
-                    <div id = "session-decrement" onClick = {this.decreaseSession}>-</div>
-                    <div id = "session-increment" onClick = {this.increaseSession}>+</div>
+                    <Control elementId = "session-decrement" onClick = {this.decreaseSession} contents = "-"/> 
+                    <Control elementId = "session-increment" onClick = {this.increaseSession} contents = "+"/> 
                 </div>
                 <div id = "timerContainer">
                     <div id = "timer-label">{this.state.timerLabel}</div>
-                    <div id = "time-left">
-                        {Math.floor(this.state.remainingTime/(60))} : {bloatConvert(this.state.remainingTime%60)}
+                    <div id = "time-left" style = {timerStyle}>
+                        {bloatConvert(Math.floor(this.state.remainingTime/(60)))} : {bloatConvert(this.state.remainingTime%60)}
                     </div>
                     <div id = "buttons">
-                        <button onClick = {this.startTimer}>Start</button>{/*supposed to be 1 button, "start_stop" */}
-                        <button onClick = {this.stopTimer}>Pause</button>
-                        <button id = "reset">Reset</button>
+                        <Control elementId = "start_stop" onClick = {this.toggleTimer} contents = {this.state.oppositeState}/> 
+                        <Control elementId = "reset" onClick = {this.resetTime} contents = "Reset" /> 
                     </div>
                 </div>
             </div>

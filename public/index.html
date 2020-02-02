@@ -11,7 +11,7 @@
     <script src="Tone.js"></script> <!-- test -->
     <script>
       
-      var crusher = new Tone.BitCrusher(5).toMaster();
+      var crusher = new Tone.BitCrusher(8).toMaster();
 
       var dist = new Tone.Distortion(0.2).connect(crusher);
 
@@ -91,7 +91,7 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
-  <button onclick = "if (Tone.Transport.seconds === 0) {Tone.Transport.start(); stopTransport();}">Test</button>
+  <!--<button onclick = "if (Tone.Transport.seconds === 0) {Tone.Transport.start(); stopTransport();}">Test</button>-->
   <audio id="beep">
     <source src="">
   </audio>
