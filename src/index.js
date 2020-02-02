@@ -154,7 +154,7 @@ class App extends React.Component {
                     </div>
                 </div>
                 <div id = "timerContainer">
-                    <div id = "timer-label">{this.state.timerLabel}</div>
+                    <div id = "timer-label" style = {timerStyle}>{this.state.timerLabel}</div>
                     <div id = "time-left" style = {timerStyle}>
                         {bloatConvert(Math.floor(this.state.remainingTime/(60))) + ':' + bloatConvert(this.state.remainingTime%60)}
                     </div>
