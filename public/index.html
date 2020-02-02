@@ -10,10 +10,15 @@
     />
     <script src="Tone.js"></script> <!-- test -->
     <script>
+      
+      var crusher = new Tone.BitCrusher(5).toMaster();
+
+      var dist = new Tone.Distortion(0.2).connect(crusher);
+
       let synth1 = new Tone.Synth(
         {
           oscillator : {
-          type : 'sawtooth'
+          type : 'sine'
           } ,
           envelope : {
             attack : 0.05 ,
@@ -22,7 +27,15 @@
             release : 0.2
           }
         }
-      ).toMaster();
+      ).connect(dist); 
+
+      /* let synth1 = new Tone.PluckSynth(
+        {
+        attackNoise : 5 ,
+        dampening : 4000,
+        resonance : 1
+        }
+      ).toMaster(); */ 
       
       function note1 (time) {
         synth1.triggerAttackRelease('C4', 1.75, time);
@@ -78,7 +91,7 @@
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
   </body>
-  <button onclick = "Tone.Transport.start(); stopTransport(); ">Test</button>
+  <button onclick = "if (Tone.Transport.seconds === 0) {Tone.Transport.start(); stopTransport();}">Test</button>
   <audio id="beep">
     <source src="">
   </audio>

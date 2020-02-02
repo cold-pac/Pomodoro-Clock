@@ -53,24 +53,34 @@ class App extends React.Component {
         timerInterval = false;
     }
     decreaseBreak () {
-        this.setState(function(state, props) {
-            return {breakLength: state.breakLength - 60}
-        });
+        if (!timerInterval) {
+            this.setState(function(state, props) {
+                if (state.breakLength > (1*60)) {
+                    return {breakLength: state.breakLength - 60}
+                }
+            });
+        }
     }
     increaseBreak () {
-        this.setState(function(state, props) {
-            return {breakLength: state.breakLength + 60}
-        });
+        if (!timerInterval) {
+            this.setState(function(state, props) {
+                if (state.breakLength < (60*60)) {
+                    return {breakLength: state.breakLength + 60}
+                }
+            });
+        }
     }
     updateTimer () { //don't have to bind to 'this' because it's not being used in an event handler 
-        this.setState(function(state,props) {
+        this.setState(function(state, props) {
             return {remainingTime: state.sessionLength}
         });
     }
     decreaseSession () {
         if (!timerInterval) {
             this.setState(function(state, props) {
-                return {sessionLength: state.sessionLength - 60}
+                if (state.sessionLength > (1*60)) {
+                    return {sessionLength: state.sessionLength - 60}
+                }
             });
             this.updateTimer();
         }
@@ -78,7 +88,9 @@ class App extends React.Component {
     increaseSession () {
         if (!timerInterval) {
             this.setState(function(state, props) {
-                return {sessionLength: state.sessionLength + 60}
+                if (state.sessionLength < (60*60)) {
+                    return {sessionLength: state.sessionLength + 60}
+                }
             });
             this.updateTimer();
         }
