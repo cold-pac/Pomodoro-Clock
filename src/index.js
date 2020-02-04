@@ -26,7 +26,8 @@ class App extends React.Component {
             sessionLength: (25*60), 
             timerLabel: "Session",
             state: "Stopped",
-            oppositeState: "Start"
+            oppositeState: "Start",
+            pomodoroNum: [],
         }
         this.toggleTimer = this.toggleTimer.bind(this);
         this.decreaseBreak = this.decreaseBreak.bind(this);
@@ -40,17 +41,26 @@ class App extends React.Component {
             this.setState(function(state, props){
                 return {remainingTime: (state.remainingTime - 1)}
             });
-            if (this.state.remainingTime === 0)  {
+            if (this.state.remainingTime < 0)  {
                 window.Tone.Transport.start(); window.stopTransport();
                 if (this.state.timerLabel === "Session") {
-                    this.setState(function(state,props) {
-                        return {remainingTime: state.breakLength, timerLabel: "Break"}
-                    });
+                    if (this.state.pomodoroNum.length < 4) {
+                        this.setState(function(state,props) {
+                            return {remainingTime: state.breakLength, timerLabel: "Break", pomodoroNum: [...state.pomodoroNum, state.pomodoroNum.length], }
+                        });
+                    } else {
+                        this.setState({
+                            timerLabel: "Elongated Break", 
+                            remainingTime: (20*60), 
+                            pomodoroNum: [], 
+                        });
+                    }              
                 } else {
                     this.setState(function(state,props) {
                         return {remainingTime: state.sessionLength, timerLabel: "Session"}
                     });
                 }
+                console.log(this.state.pomodoroNum);
             }
         }, 1000);
     }
@@ -135,6 +145,7 @@ class App extends React.Component {
         return (
             <div id = "container">
                 <h1><span>****</span><span>Pomodoro Clock</span><span>****</span></h1>
+                <div id = "pomodoros">{this.state.pomodoroNum.map((elem, i) => (<span key = {i}>+</span>))}</div>
                 <div id = "options">
                     <div id = "break">
                         <div id = "break-label">Break Length:</div>
