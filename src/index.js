@@ -90,6 +90,7 @@ class App extends React.Component {
                     return {breakLength: state.breakLength - 60}
                 }
             });
+            this.updateTimer();
         }
     }
     increaseBreak () {
@@ -99,12 +100,19 @@ class App extends React.Component {
                     return {breakLength: state.breakLength + 60}
                 }
             });
+            this.updateTimer();
         }
     }
     updateTimer () { //don't have to bind to 'this' because it's not being used in an event handler 
-        this.setState(function(state, props) {
-            return {remainingTime: state.sessionLength}
-        });
+        if (this.state.timerLabel === "Session") {
+            this.setState(function(state, props) {
+                return {remainingTime: state.sessionLength}
+            });
+        } else { 
+            this.setState(function(state, props) {
+                return {remainingTime: state.breakLength}
+            });
+        }
     }
     decreaseSession () {
         if (!timerInterval) {
