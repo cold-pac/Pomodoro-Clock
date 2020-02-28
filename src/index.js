@@ -153,7 +153,7 @@ class App extends React.Component {
         return (
             <div id = "container">
                 <h1><span>****</span><span>Pomodoro Clock</span><span>****</span></h1>
-                <div id = "pomodoros">{this.state.pomodoroNum.map((elem, i) => (<span key = {i}>+</span>))}</div>
+                <div id = "pomodoros">{this.state.pomodoroNum.map((elem, i) => (<span key = {i}><img alt="pomodoro" src="./tomato.png" className = "pomodoro" /></span>))}</div>
                 <div id = "options">
                     <div id = "break">
                         <div id = "break-label">Break Length:</div>

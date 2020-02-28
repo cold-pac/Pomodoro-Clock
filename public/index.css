@@ -42,6 +42,9 @@ h1 {
     height: 1em;
     text-align: center;
 }
+.pomodoro {
+    height: 5vh;
+}
 #break {
     display: flex;
     flex-direction: row;
